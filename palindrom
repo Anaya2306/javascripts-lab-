@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Palindrome Checker</title>
+</head>
+<body>
+  <h2>Palindrome Checker</h2>
+  <input type="text" id="text" placeholder="Enter a word or sentence">
+  <button onclick="check()">Check</button>
+  <p id="result"></p>
+  <p id="count"></p>
+
+  <script>
+    // Scope: global variable
+    let globalMsg = "Global scope";
+
+    // Function declaration
+    function clean(str) {
+      return str.toLowerCase().replace(/[^a-z0-9]/g, "");
+    }
+
+    // Function expression
+    const reverse = function (str) {
+      return str.split("").reverse().join("");
+    };
+
+    // Arrow function
+    const isPalindrome = (str) => clean(str) === reverse(clean(str));
+
+    // Closure: inner function remembers count
+    function makeCounter() {
+      let count = 0; // local (function) scope
+      return function () {
+        count++;
+        return count;
+      };
+    }
+    const counter = makeCounter();
+
+    function check() {
+      const input = document.getElementById("text").value;
+      const result = document.getElementById("result");
+
+      // try-catch
+      try {
+        if (input.trim() === "") {
+          throw new Error("Input cannot be empty");
+        }
+
+        if (isPalindrome(input)) {
+          result.innerText = `"${input}" is a palindrome`;
+        } else {
+          result.innerText = `"${input}" is NOT a palindrome`;
+        }
+
+        document.getElementById("count").innerText =
+          "Checks done: " + counter();
+      } catch (error) {
+        result.innerText = "Error: " + error.message;
+      } finally {
+        console.log("Check finished");
+      }
+    }
+
+    // Block scope demo
+    if (true) {
+      let blockVar = "Only inside this block";
+      console.log(blockVar);
+    }
+    console.log(globalMsg);
+    // console.log(blockVar); // would give ReferenceError
+  </script>
+</body>
+</html>
