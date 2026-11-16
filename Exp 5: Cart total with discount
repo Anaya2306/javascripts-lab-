@@ -1,0 +1,33 @@
+<h2>Cart</h2>
+<ul id="list"></ul>
+<p id="total"></p>
+
+<script>
+  const cart = [
+    { name: "Pen", price: 10, qty: 5 },
+    { name: "Book", price: 250, qty: 2 },
+    { name: "Bag", price: 700, qty: 1 }
+  ];
+
+  // map: show items
+  document.getElementById("list").innerHTML = cart
+    .map(item => `<li>${item.name} - ${item.price} x ${item.qty}</li>`)
+    .join("");
+
+  // reduce: total
+  let total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+  // discount logic
+  let discount = 0;
+  if (total > 1000) discount = total * 0.10;
+  else if (total > 500) discount = total * 0.05;
+
+  const final = total - discount;
+  document.getElementById("total").innerText =
+    `Total: ${total}, Discount: ${discount}, Pay: ${final}`;
+
+  // other methods to mention
+  console.log(cart.filter(i => i.price > 100));  // filter
+  console.log(cart.find(i => i.name === "Pen")); // find
+  cart.push({ name: "Cap", price: 150, qty: 1 }); // push
+</script>
